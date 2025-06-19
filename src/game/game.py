@@ -2,9 +2,24 @@ from typing import List, Tuple
 import random
 
 class CandyGame:
-    def __init__(self):
-        """Initialize game with exactly 3 piles"""
-        self.piles = [random.randint(1, 10) for _ in range(3)]
+    def __init__(self, num_piles=3, min_candies=2, max_candies=10):
+        """
+        Initialize game with customizable number of piles
+        
+        Args:
+            num_piles (int): Number of piles (default: 3)
+            min_candies (int): Minimum candies per pile (default: 2)
+            max_candies (int): Maximum candies per pile (default: 10)
+        """
+        if not (2 <= num_piles <= 10):
+            raise ValueError("Number of piles must be between 2 and 10")
+        if min_candies < 2:
+            raise ValueError("Minimum candies must be at least 2")
+        if max_candies < min_candies:
+            raise ValueError("Maximum candies must be greater than minimum")
+            
+        self.piles = [random.randint(min_candies, max_candies) 
+                     for _ in range(num_piles)]
         
     def make_move(self, pile_idx: int, candies: int) -> bool:
         """Attempt to make a move. Returns True if valid, False otherwise."""
